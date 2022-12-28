@@ -435,4 +435,73 @@ function rand(max) {
             break;
         }
       }
+      this.bindKeyDown = function () {
+        window.addEventListener("keydown", check, false);
+    
+        $("#view").swipe({
+          swipe: function (
+            event,
+            direction,
+            distance,
+            duration,
+            fingerCount,
+            fingerData
+          ) {
+            console.log(direction);
+            switch (direction) {
+              case "up":
+                check({
+                  keyCode: 38
+                });
+                break;
+              case "down":
+                check({
+                  keyCode: 40
+                });
+                break;
+              case "left":
+                check({
+                  keyCode: 37
+                });
+                break;
+              case "right":
+                check({
+                  keyCode: 39
+                });
+                break;
+            }
+          },
+          threshold: 0
+        });
+      };
+    
+      this.unbindKeyDown = function () {
+        window.removeEventListener("keydown", check, false);
+        $("#view").swipe("destroy");
+      };
+    
+      drawSprite(maze.startCoord());
+    
+      this.bindKeyDown();
+    }
+    
+    var mazeCanvas = document.getElementById("mazeCanvas");
+    var ctx = mazeCanvas.getContext("2d");
+    var sprite;
+    var finishSprite;
+    var maze, draw, player;
+    var cellSize;
+    var difficulty;
+    // sprite.src = 'media/sprite.png';
+    
+    window.onload = function () {
+      let viewWidth = $("#view").width();
+      let viewHeight = $("#view").height();
+      if (viewHeight < viewWidth) {
+        ctx.canvas.width = viewHeight - viewHeight / 100;
+        ctx.canvas.height = viewHeight - viewHeight / 100;
+      } else {
+        ctx.canvas.width = viewWidth - viewWidth / 100;
+        ctx.canvas.height = viewWidth - viewWidth / 100;
+      }
     }
